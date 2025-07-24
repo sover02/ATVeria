@@ -1,0 +1,37 @@
+# Cursor Rules for ATVeria (Arcade ATV Prototype Phase)
+
+## General Goals
+- Build an arcade-style 3D ATV driving game in Unity.
+- Player is a sentient ATV in a stylized open world.
+- Focus first on getting the *feel* of driving: jumping, drifting, turning, and speed.
+- No premade tricks or combat yet.
+
+## Engine & Tooling
+- Unity (2022 LTS) using URP on macOS.
+- C# scripts organized by function (Player, Systems, etc.)
+- Using Unity physics (Rigidbody + WheelCollider).
+- Input handled via Unity Input System or legacy Input.
+
+## Current Focus Areas
+- ATV movement: forward, reverse, turn, brake
+- Jumping off terrain using physics
+- Camera follow system
+- Core test scene with terrain and ramps
+
+## Folder Structure
+Scripts/
+├── Player/
+│   ├── ATVController.cs
+│   ├── ATVInputHandler.cs
+│   ├── SimpleFollowCamera.cs
+Prefabs/
+Scenes/
+Art/
+Audio/
+
+## Guidelines for Agents
+- Separate input and physics logic into distinct scripts
+- Use Rigidbody and WheelColliders for realism
+- Use Physics Materials (low friction) for drifting
+- Avoid premature optimization
+- Visuals can be Unity cubes and cylinders
