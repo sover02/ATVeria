@@ -136,6 +136,9 @@ public class ATVSceneSetup : EditorWindow
         // 5. Create Environment
         CreateEnvironment();
         
+        // 6. Create NPC ATV
+        CreateNPCATV();
+        
         Debug.Log("ATV Scene Setup Complete! Press Play to drive!");
         
         // Focus on the ATV in scene view
@@ -364,6 +367,65 @@ public class ATVSceneSetup : EditorWindow
         }
         
         Debug.Log("✅ Environment: 3 trees placed away from ramps");
+    }
+    
+    private static void CreateNPCATV()
+    {
+        // Create NPC ATV GameObject
+        GameObject npcATV = new GameObject("NPC_ATV");
+        npcATV.transform.position = new Vector3(-25, 1f, -20); // Corner position
+        
+        // Add Rigidbody (kinematic so it doesn't move)
+        Rigidbody npcRb = npcATV.AddComponent<Rigidbody>();
+        npcRb.isKinematic = true; // NPC doesn't move
+        npcRb.useGravity = false;
+        
+        // Create NPC ATV Body (taller and narrower for cartoon look)
+        GameObject npcBody = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        npcBody.name = "NPC_Body";
+        npcBody.transform.parent = npcATV.transform;
+        npcBody.transform.localPosition = Vector3.zero;
+        npcBody.transform.localScale = new Vector3(1.5f, 1.8f, 2.5f); // Taller and narrower
+        
+        // Make it blue
+        var npcBodyRenderer = npcBody.GetComponent<Renderer>();
+        var npcBodyMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        npcBodyMaterial.color = new Color(0.3f, 0.6f, 1f); // Light blue
+        npcBodyRenderer.material = npcBodyMaterial;
+        
+        // Create NPC wheels (smaller for cartoon look, sticking out much more)
+        var npcWheelPositions = new Vector3[]
+        {
+            new Vector3(-1.2f, -0.6f, 1f),   // Front Left (sticking out much more)
+            new Vector3(1.2f, -0.6f, 1f),    // Front Right (sticking out much more)
+            new Vector3(-1.2f, -0.6f, -1f),  // Rear Left (sticking out much more)
+            new Vector3(1.2f, -0.6f, -1f)    // Rear Right (sticking out much more)
+        };
+        
+        for (int i = 0; i < npcWheelPositions.Length; i++)
+        {
+            GameObject npcWheel = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            npcWheel.name = "NPC_Wheel_" + i;
+            npcWheel.transform.parent = npcATV.transform;
+            npcWheel.transform.localPosition = npcWheelPositions[i];
+            npcWheel.transform.localScale = new Vector3(0.4f, 0.15f, 0.4f); // Smaller wheels
+            npcWheel.transform.rotation = Quaternion.Euler(0, 0, 90);
+            
+            // Remove collider - just visual
+            DestroyImmediate(npcWheel.GetComponent<CapsuleCollider>());
+            
+            // Make it dark blue
+            var npcWheelRenderer = npcWheel.GetComponent<Renderer>();
+            var npcWheelMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            npcWheelMaterial.color = new Color(0.2f, 0.4f, 0.8f); // Dark blue
+            npcWheelRenderer.material = npcWheelMaterial;
+        }
+        
+        // Add interaction component
+        var npcInteraction = npcATV.AddComponent<NPCInteraction>();
+        
+        Debug.Log("✅ Created friendly NPC ATV in corner");
+        Debug.Log("✅ Added NPCInteraction component to NPC ATV");
     }
 }
 

@@ -114,47 +114,6 @@ public class ATVDiagnostics : MonoBehaviour
         Debug.Log("=================== END DIAGNOSTIC =======================");
     }
     
-    void OnGUI()
-    {
-        if (!runDiagnostics) return;
-        
-        // Simple fixed-position labels to avoid layout errors
-        GUI.color = Color.white;
-        GUI.Label(new Rect(10, 10, 200, 20), "🚗 ATV STATUS");
-        
-        // Input status
-        if (inputHandler != null)
-        {
-            GUI.color = Mathf.Abs(inputHandler.MotorInput) > 0.1f ? Color.green : Color.red;
-            GUI.Label(new Rect(10, 35, 200, 20), $"Motor Input: {inputHandler.MotorInput:F2}");
-            
-            GUI.color = Mathf.Abs(inputHandler.SteerInput) > 0.1f ? Color.green : Color.red;
-            GUI.Label(new Rect(10, 55, 200, 20), $"Steer Input: {inputHandler.SteerInput:F2}");
-        }
-        
-        // Direct key status using New Input System
-        GUI.color = Color.yellow;
-        bool w = false, s = false, a = false, d = false;
-        if (Keyboard.current != null)
-        {
-            w = Keyboard.current.wKey.isPressed;
-            s = Keyboard.current.sKey.isPressed;
-            a = Keyboard.current.aKey.isPressed;
-            d = Keyboard.current.dKey.isPressed;
-        }
-        GUI.Label(new Rect(10, 75, 300, 20), $"Keys: W={w} S={s} A={a} D={d}");
-        
-        // Status
-        if (controller != null)
-        {
-            GUI.color = controller.IsGrounded ? Color.green : Color.yellow;
-            GUI.Label(new Rect(10, 95, 200, 20), $"Grounded: {controller.IsGrounded}");
-            
-            GUI.color = Color.white;
-            GUI.Label(new Rect(10, 115, 200, 20), $"Speed: {controller.GetCurrentSpeed():F1} m/s");
-        }
-        
-        GUI.color = Color.cyan;
-        GUI.Label(new Rect(10, 135, 200, 20), "Press WASD to test!");
-    }
+    // Completely removed OnGUI to eliminate debug clutter
+    // void OnGUI() { }
 } 

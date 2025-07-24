@@ -287,7 +287,28 @@ The `ATVSceneSetup` editor script automatically configures:
 - **S/Down Arrow**: Reverse
 - **A/Left Arrow**: Turn left
 - **D/Right Arrow**: Turn right
-- **Space**: Brake
+- **Left Shift**: Brake
+- **Space**: Talk to NPC (when nearby)
+
+## NPC Interaction System
+
+### NPC ATV Features
+- **Location**: Corner of the map (-25, 1, -20)
+- **Appearance**: Taller, narrower blue ATV (cartoon-like)
+- **Interaction**: Press SPACEBAR when within 5 units
+- **Dialogue**: Multiple response options with contextual NPC replies
+
+### Interaction Controls
+- **SPACEBAR**: Start conversation when in range
+- **UP/DOWN or W/S**: Navigate response options
+- **SPACEBAR**: Select current response
+- **ESC**: Exit dialogue
+
+### Dialogue System
+- **Proximity detection**: Automatic range checking
+- **Response options**: 4 different conversation paths
+- **Contextual replies**: NPC responds based on your choice
+- **Visual UI**: On-screen dialogue box with navigation
 
 ## Testing and Validation
 
@@ -307,5 +328,12 @@ The `ATVSceneSetup` editor script automatically configures:
 - [ ] Smooth camera movement
 - [ ] Responsive input
 - [ ] Stable physics simulation
+
+### NPC Interaction Validation
+- [ ] NPC appears in corner
+- [ ] Proximity detection works
+- [ ] SPACEBAR starts dialogue
+- [ ] Response navigation works
+- [ ] NPC gives contextual replies
 
 This configuration guide provides all the knobs and levers needed to tune the ATV physics system for different gameplay feels and performance requirements. 

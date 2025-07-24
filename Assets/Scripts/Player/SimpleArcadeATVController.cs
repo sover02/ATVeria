@@ -300,20 +300,20 @@ public class SimpleArcadeATVController : MonoBehaviour
         transform.position = new Vector3(0, 2, 0);
     }
     
-    // Debug info display (visible in inspector)
-    void OnGUI()
-    {
-        if (Application.isPlaying)
-        {
-            GUILayout.BeginArea(new Rect(10, 10, 300, 200));
-            GUILayout.Label($"ATV Debug Info:");
-            GUILayout.Label($"Grounded: {(isGrounded ? "YES" : "NO")}");
-            GUILayout.Label($"Speed: {GetCurrentSpeed():F1} m/s");
-            GUILayout.Label($"Position Y: {transform.position.y:F2}");
-            GUILayout.Label($"Motor Input: {inputHandler?.MotorInput:F2}");
-            GUILayout.Label($"Steer Input: {inputHandler?.SteerInput:F2}");
-            GUILayout.Label("Controls: WASD to move");
-            GUILayout.EndArea();
-        }
-    }
+    // Debug info display (disabled to make room for NPC dialogue)
+    // void OnGUI()
+    // {
+    //     if (Application.isPlaying)
+    //     {
+    //         GUILayout.BeginArea(new Rect(10, 10, 300, 200));
+    //         GUILayout.Label($"ATV Debug Info:");
+    //         GUILayout.Label($"Grounded: {(isGrounded ? "YES" : "NO")}");
+    //         GUILayout.Label($"Speed: {GetCurrentSpeed():F1} m/s");
+    //         GUILayout.Label($"Position Y: {transform.position.y:F2}");
+    //         GUILayout.Label($"Motor Input: {inputHandler?.MotorInput:F2}");
+    //         GUILayout.Label($"Steer Input: {inputHandler?.SteerInput:F2}");
+    //         GUILayout.Label("Controls: WASD to move");
+    //         GUILayout.EndArea();
+    //     }
+    // }
 } 

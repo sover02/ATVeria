@@ -47,8 +47,8 @@ public class ATVInputHandler : MonoBehaviour
             else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
                 rawSteerInput = 1f;
             
-            // Brake input
-            rawBrakeInput = Keyboard.current.spaceKey.isPressed ? 1f : 0f;
+            // Brake input (changed from SPACEBAR to LEFT SHIFT)
+            rawBrakeInput = Keyboard.current.leftShiftKey.isPressed ? 1f : 0f;
         }
         else
         {
