@@ -15,7 +15,7 @@ public class SimpleArcadeATVController : MonoBehaviour
     [SerializeField] private float downforce = 200f; // More downforce for better gravity
     [SerializeField] private float dragCoefficient = 0.99f; // Minimal drag for momentum
     [SerializeField] private float steerHelper = 0.8f;
-    [SerializeField] private float traction = 1f;
+    [SerializeField] private float traction = 2f; // Higher traction for better grip
     
     [Header("Grounding")]
     [SerializeField] private LayerMask groundLayer = -1;
@@ -123,8 +123,25 @@ public class SimpleArcadeATVController : MonoBehaviour
                 rb.AddForce(brakeVector);
             }
             
-            // Simplified physics - remove competing forces for now
-            // (Traction and steering helper disabled to prevent force conflicts)
+            // TRACTION SYSTEM - Help with grip, especially when landing
+            if (isGrounded && rb.linearVelocity.magnitude > 1f)
+            {
+                // Anti-slide traction - reduce sideways sliding
+                Vector3 sidewaysVelocity = Vector3.Project(rb.linearVelocity, transform.right);
+                if (sidewaysVelocity.magnitude > 0.5f)
+                {
+                    Vector3 tractionForce = -sidewaysVelocity * traction * 3000f;
+                    rb.AddForce(tractionForce);
+                    Debug.Log($"🏎️ TRACTION: Reducing slide by {tractionForce.magnitude:F0}N");
+                }
+                
+                // Landing stabilization - extra grip when just landed
+                if (transform.position.y < 1.5f && rb.linearVelocity.y > -2f && rb.linearVelocity.y < 0.5f)
+                {
+                    // Just landed - add extra downward grip
+                    rb.AddForce(Vector3.down * 1000f);
+                }
+            }
         }
         
         // MINIMAL DRAG - Preserve momentum for ramps
@@ -132,6 +149,39 @@ public class SimpleArcadeATVController : MonoBehaviour
         
         // Add MUCH lighter downward force (was way too heavy!)
         rb.AddForce(Vector3.down * downforce * 0.1f); // Only 20N instead of 60,000N!
+        
+        // Extra grip when grounded - reduce spinning out after landings
+        if (isGrounded)
+        {
+            rb.angularVelocity *= 0.85f; // Reduce spinning when on ground
+        }
+        
+        // RAMP ANTI-FACEPLANT SYSTEM - Prevent faceplanting on ramps
+        if (isGrounded && rb != null && rb.linearVelocity.magnitude > 5f)
+        {
+            // Check if we're on a ramp (upward slope)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position + Vector3.up * 0.1f, -transform.up, out hit, groundRayLength))
+            {
+                float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+                
+                // If we're on a significant slope (ramp), add anti-faceplant force
+                if (slopeAngle > 10f && slopeAngle < 45f)
+                {
+                    // Add forward force to prevent faceplanting
+                    Vector3 antiFaceplantForce = transform.forward * 2000f;
+                    rb.AddForce(antiFaceplantForce);
+                    
+                    // Reduce downward velocity to prevent faceplanting
+                    if (rb.linearVelocity.y < -5f)
+                    {
+                        rb.linearVelocity = new Vector3(rb.linearVelocity.x, -2f, rb.linearVelocity.z);
+                    }
+                    
+                    Debug.Log($"🎢 RAMP ANTI-FACEPLANT: Slope={slopeAngle:F1}°, Speed={rb.linearVelocity.magnitude:F1} m/s");
+                }
+            }
+        }
     }
     
     private void CheckGrounded()
