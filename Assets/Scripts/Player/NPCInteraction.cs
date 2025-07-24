@@ -166,9 +166,12 @@ public class NPCInteraction : MonoBehaviour
     
     void OnGUI()
     {
-        // Simple test GUI - always show something to test if GUI is working
-        GUI.color = Color.red;
-        GUI.Label(new Rect(10, 10, 200, 30), "GUI TEST - NPCInteraction OnGUI is working!");
+        // Simple test GUI - only show when debugging
+        if (dialogueActive || playerInRange)
+        {
+            GUI.color = Color.red;
+            GUI.Label(new Rect(10, 10, 300, 50), "GUI TEST - NPCInteraction OnGUI is working!");
+        }
         
         // Force GUI to always render when dialogue is active
         if (dialogueActive)
@@ -187,7 +190,7 @@ public class NPCInteraction : MonoBehaviour
             GUI.color = Color.cyan;
             GUI.Label(new Rect(20, 20, 380, 30), $"{npcName}:");
             GUI.color = Color.white;
-            GUI.Label(new Rect(20, 50, 380, 40), greetingMessage);
+            GUI.Label(new Rect(20, 50, 380, 60), greetingMessage);
             
             // Response options
             GUI.color = Color.yellow;
